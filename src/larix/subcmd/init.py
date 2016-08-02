@@ -18,7 +18,7 @@ def command(namespace):
 
 def add_sub_parser(subparsers):
     sub_parser = subparsers.add_parser('init')
-    sub_parser.set_defaults(target='tags')
+    sub_parser.set_defaults(target='init')
     sub_parser.set_defaults(func=command)
     sub_parser.add_argument('name', type=str,
         nargs=1)
