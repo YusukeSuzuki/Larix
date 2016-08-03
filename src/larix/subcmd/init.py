@@ -14,14 +14,13 @@ def command(namespace):
 
     project_name = path.resolve().name
 
-    larix.libs.project.init(path, project_name)
+    larix.libs.project.init(path, project_name, namespace.template_name)
 
 def add_sub_parser(subparsers):
     sub_parser = subparsers.add_parser('init')
     sub_parser.set_defaults(target='init')
     sub_parser.set_defaults(func=command)
-    sub_parser.add_argument('name', type=str,
-        nargs=1)
-    
-    return subparsers
+    sub_parser.set_defaults(template_name='default')
+    sub_parser.add_argument('name', type=str, nargs=1)
 
+    return subparsers

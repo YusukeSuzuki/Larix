@@ -1,0 +1,12 @@
+---
+entities:
+  - name: src 
+    type: directory
+    entities:
+      - name: main.c
+        type: generated
+        base: main.c
+#  - name: test.txt
+#    type: file
+#    base: test.txt
+
