@@ -2,8 +2,6 @@ from pathlib import Path
 import larix.libs.project
 
 def command(namespace):
-    print('init command is not implemented yet')
-
     path = Path(namespace.name[0])
 
     if not path.exists():

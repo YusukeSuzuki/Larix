@@ -2,6 +2,7 @@ from pathlib import Path
 from larix import project_file_name
 
 def current_project_yaml_path():
+    # to do find project file by argument or environment variable
     project_dir = Path().cwd() / project_file_name
     project_file_path = None
 

@@ -42,11 +42,24 @@ def init(path, name, template_name):
     parse_contents(path, name, contents_yaml, template_name, template_dict)
 
 
-def configure():
+def configure(project_yaml, namespace):
     pass
 
-def build():
-    pass
+def build(project_dir_path, project_yaml, namespace):
+    build_target = None
+
+    for bt in project_yaml['build_targets']:
+        if bt['name'] == namespace.target:
+            build_target = bt
+
+    if not build_target:
+        raise Exception('build target {} not found'.format(namespace.target))
+
+    build_template_str = \
+        (project_dir_path / 'build_templates' / build_target['base']).open().read()
+    build_template = Template(build_template_str)
+
+    print(build_template.render())
 
 def run():
     pass

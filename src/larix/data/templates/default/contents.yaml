@@ -6,7 +6,10 @@ entities:
       - name: main.c
         type: generated
         base: main.c
-#  - name: test.txt
-#    type: file
-#    base: test.txt
+  - name: build_templates
+    type: directory
+    entities:
+      - name: makefile
+        type: file
+        base: makefile
 
