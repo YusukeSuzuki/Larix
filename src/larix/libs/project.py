@@ -1,6 +1,8 @@
 from jinja2 import Template
 import pkg_resources as pr
 import yaml
+import re
+from pathlib import Path
 from larix import project_file_name, contents_file_name
 
 def parse_contents(path, name, contents_yaml, template_name, template_dict):
@@ -41,9 +43,54 @@ def init(path, name, template_name):
     print(name)
     parse_contents(path, name, contents_yaml, template_name, template_dict)
 
+def parse_build_target(build_target):
+    def parse_variables(line):
+        return line
 
-def configure(project_yaml, namespace):
-    pass
+    def glob_files(line):
+        files = [str(path) for path in Path().glob( parse_variables(line) )]
+        return files
+
+    result = {}
+
+    files_re = re.compile('.+_files$')
+
+    for key, value in build_target.items():
+        if files_re.match(key):
+            print(key)
+            print(value)
+            result[key] = []
+            for line in value:
+                result[key].extend(glob_files(line))
+        else:
+            result[key] = value
+
+    return result
+
+def configure(project_dir_path, build_path, project_yaml, namespace):
+    project_dir_path.cwd()
+    build_target = None
+
+    for bt in project_yaml['build_targets']:
+        if bt['name'] == namespace.target:
+            build_target = bt
+
+    if not build_target:
+        raise Exception('build target {} not found'.format(namespace.target))
+
+    build_target = parse_build_target(build_target)
+
+    print(build_target)
+
+    build_settings = yaml.load((project_dir_path / 'build_templates' / 'build_settings.yaml').open())
+
+    for build_setting_file in build_settings['build_setting_files']:
+        build_template_str = \
+            (project_dir_path / 'build_templates' / build_setting_file['name'] ).open().read()
+        build_template = Template(build_template_str)
+
+        with (build_path / build_setting_file['name']).open('w') as f:
+            f.write(build_template.render(build_target))
 
 def build(project_dir_path, project_yaml, namespace):
     build_target = None

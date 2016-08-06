@@ -12,4 +12,10 @@ entities:
       - name: makefile
         type: file
         base: makefile
+      - name: project.mk
+        type: file
+        base: project.mk
+      - name: build_settings.yaml
+        type: file
+        base: build_settings.yaml
 

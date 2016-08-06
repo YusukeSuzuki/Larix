@@ -5,7 +5,7 @@ import importlib as il
 
 def get_parser():
     parser = argparse.ArgumentParser()
-    parser.set_defaults(target='')
+    parser.set_defaults(sub_command='')
 
     sub_parsers = parser.add_subparsers()
 

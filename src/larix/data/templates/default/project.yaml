@@ -2,8 +2,7 @@
 name: {{ name }}
 build_targets:
     - name: default
-      base: makefile
       output_file_name: {{ name }}
-      source_directories:
-        - src
+      source_files:
+        - src/*.c
 

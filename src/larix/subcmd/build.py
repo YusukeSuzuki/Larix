@@ -16,11 +16,11 @@ def command(namespace):
     print(project_file_path)
     (project_dir_path/'build'/namespace.target).mkdir(parents=True, exist_ok=True)
     project_yaml = yaml.load(project_file_path.open().read())
-    project.build(project_dir_path, project_yaml, namespace)
+    project.configure(project_dir_path, project_yaml, namespace)
 
 def add_sub_parser(subparsers):
     sub_parser = subparsers.add_parser('build')
-    sub_parser.set_defaults(target='build')
+    sub_parser.set_defaults(sub_command='build')
     sub_parser.set_defaults(func=command)
 
     sub_parser.add_argument('--target','-t', type=str, default='default')

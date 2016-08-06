@@ -1,0 +1,5 @@
+---
+build_setting_files:
+  - name: makefile
+  - name: project.mk
+
