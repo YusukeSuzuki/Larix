@@ -2,6 +2,7 @@ import larix
 import larix.libs.utils as utils
 import larix.libs.project as project
 from pathlib import Path
+import larix.libs.pathlib
 import yaml
 
 def command(namespace):
