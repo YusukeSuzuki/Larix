@@ -6,16 +6,22 @@ entities:
       - name: main.c
         type: generated
         base: main.c
-  - name: build_templates
+  - name: targets
     type: directory
     entities:
-      - name: makefile
-        type: file
-        base: makefile
-      - name: project.mk
-        type: file
-        base: project.mk
-      - name: build_settings.yaml
-        type: file
-        base: build_settings.yaml
+      - name: {{target_name}}
+        type: directory
+        entities:
+          - name: makefile
+            type: file
+            base: makefile
+          - name: project.mk
+            type: file
+            base: project.mk
+          - name: module.py
+            type: file
+            base: module.py
+#          - name: build_settings.yaml
+#            type: file
+#            base: build_settings.yaml
 

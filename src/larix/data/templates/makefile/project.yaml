@@ -1,8 +1,7 @@
 ---
-name: {{ name }}
-build_targets:
-    - name: default
-      output_file_name: {{ name }}
-      source_files:
-        - src/*.c
+target:
+  name: {{ target_name }} 
+  output_file_name: {{ project_name }}
+  source_files:
+    - src/*.c
 

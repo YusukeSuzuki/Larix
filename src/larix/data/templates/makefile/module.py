@@ -6,48 +6,42 @@ makefile target type module
 # module actions
 # --------------------------------------------------------------------------------
 
-def init(project, target, namespace):
-    """ do configure action """
-    pass
-
-
 def configure(project, target, namespace):
     """ do configure action """
-    pass
+    print('configure')
 
 
 def build(project, target, namespace):
     """ do build action """
-    pass
+    print('build')
 
 
 def clean(project, target, namespace):
     """ do clean action """
-    pass
+    print('clean')
 
 
 def rebuild(project, target, namespace):
     """ do rebuild ation """
-    pass
+    print('rebuild')
 
 
 # --------------------------------------------------------------------------------
 # module infomations
 # --------------------------------------------------------------------------------
 
-module_actions = [build, configure, clean, rebuild]
-module_action_names = [x.__name__ for x in module_actions]
-module_action_dict = {x.__name__:x for x in module_actions}
+module_action_dict = {x.__name__:x for x in
+    [build, configure, clean, rebuild]}
 
 def actions():
     """ return available action names """
-    return module_action_names
+    return list(module_action_dict.keys())
 
 
 def do_action(project, target, namespace, action_name):
     """ do ation """
     if action_name in module_action_dict:
-        return module_action_dict[action_name](project, target)
+        return module_action_dict[action_name](project, target, namespace)
 
     """
     Todo:
@@ -58,6 +52,6 @@ def do_action(project, target, namespace, action_name):
 
 def is_action_enable(action_name):
     """ do rebuild ation """
-    return action_name in module_action_names
+    return action_name in module_action_dict
 
 

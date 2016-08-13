@@ -9,7 +9,7 @@ setup(
     install_requires = ['appdirs', 'PyYAML', 'Jinja2'],
     include_package_data=True,
     package_data = {
-        'larix': ['data/templates/**/*']
+        'larix': ['data/templates/**/*', 'data/larix/*']
     }
 )
 
