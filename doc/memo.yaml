@@ -1,0 +1,59 @@
+# larix configure
+# -> larix do configure default
+# larix build
+# -> larix do build default
+# larix clean
+# -> larix do clean default
+# larix rebuild
+# -> larix do clean default -- build default
+#
+# larix do my_action my_target
+# larix do my_action2 my_target
+
+targets:
+    - name: default
+      # target base module defines what to do for action name
+      # configure, build, clean rebuild ...
+      base: makefile 
+      type: executable
+      source_files:
+      - src/*.c
+      - src/*.cpp
+      link_libraries:
+      - m
+      - jpeg
+      depend_targets:
+      - sub_module
+    - name: sub_module
+      base: makefile
+      type: static_library
+      source_files:
+      - sub_src/*.c
+    - name: sub_tool
+      base: makefile
+      type: custom
+
+default_action:
+  - name: configure
+    target: default
+  - name: build
+    target: default
+  - name: clean
+    target: default
+  - name: rebuild
+    target: default
+
+target_type:
+    - name: makefile
+      # 
+      module: target_makefile.py
+      actions:
+      - name: configure
+        action: build.sh configure
+      - name: build
+        action: build.sh build
+      - name: clean
+        action: build.sh clean
+      - name: rebuild
+        action: build.sh clean build
+
