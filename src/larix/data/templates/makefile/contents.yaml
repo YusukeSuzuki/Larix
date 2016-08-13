@@ -1,0 +1,21 @@
+---
+entities:
+  - name: src 
+    type: directory
+    entities:
+      - name: main.c
+        type: generated
+        base: main.c
+  - name: build_templates
+    type: directory
+    entities:
+      - name: makefile
+        type: file
+        base: makefile
+      - name: project.mk
+        type: file
+        base: project.mk
+      - name: build_settings.yaml
+        type: file
+        base: build_settings.yaml
+

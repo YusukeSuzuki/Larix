@@ -1,5 +1,6 @@
 import pathlib
 import sys
+from os.path import relpath
 
 def mkdir_ex(self, mode=0o777, parents=False, exist_ok=False):
     if sys.version_info >= (3,5):
@@ -11,6 +12,14 @@ def mkdir_ex(self, mode=0o777, parents=False, exist_ok=False):
             if not exist_ok:
                 raise e
 
-pathlib.Path.mkdir_orig = pathlib.Path.mkdir
-pathlib.Path.mkdir = mkdir_ex
+if pathlib.Path.mkdir is mkdir_ex:
+    pathlib.Path.mkdir_orig = pathlib.Path.mkdir
+    pathlib.Path.mkdir = mkdir_ex
+
+def relpath_to(self, to):
+    return pathlib.Path(relpath(str(to), str(self)))
+
+pathlib.Path.relpath_to = relpath_to
+
+
 
