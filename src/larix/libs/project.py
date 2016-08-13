@@ -79,6 +79,7 @@ def configure(project_dir_path, build_path, project_yaml, namespace):
         raise Exception('build target {} not found'.format(namespace.target))
 
     build_target = parse_build_target(build_target)
+    build_target['project_root'] = build_path.relpath_to(project_dir_path)
 
     print(build_target)
 

@@ -16,7 +16,7 @@ def command(namespace):
     print(project_file_path)
     (project_dir_path/'build'/namespace.target).mkdir(parents=True, exist_ok=True)
     project_yaml = yaml.load(project_file_path.open().read())
-    project.configure(project_dir_path, project_yaml, namespace)
+    project.build(project_dir_path, project_yaml, namespace)
 
 def add_sub_parser(subparsers):
     sub_parser = subparsers.add_parser('build')
