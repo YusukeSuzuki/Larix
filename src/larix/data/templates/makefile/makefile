@@ -2,6 +2,10 @@ include project.mk
 
 all: LARIX_postbuild
 
+run: all
+	@echo "[run $(target)]"
+	@./$(target)
+
 LARIX_prebuild:
 	@echo [pre build]
 
@@ -16,11 +20,11 @@ $(target): $(c_objects) $(cxx_objects)
 	$(CC) -o $@ $^ $(LDFLAGS)
 
 $(c_objects) : $(object_root)/%.o: $(project_root)/%
-	@mkdir -p $(%@)
+	@mkdir -p $(dir $@)
 	$(CC) -c -o $@ $< $(CFLAGS)
 
 $(cxx_objects) : $(object_root)/%.o: $(project_root)/%
-	@mkdir -p $(%@)
+	@mkdir -p $(dir $@)
 	$(CXX) -c -o $@ $< $(CXXFLAGS)
 
 %.cxx %.cpp %.cc:
@@ -31,5 +35,5 @@ clean:
 	rm -rf $(c_objects)
 	rm -rf $(cxx_objects)
 
-PHONY: all clean LARIX_prebuild LARIX_mainbuild LARIX_postbuild
+PHONY: all clean run LARIX_prebuild LARIX_mainbuild LARIX_postbuild
 

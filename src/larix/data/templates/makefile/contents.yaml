@@ -21,7 +21,7 @@ entities:
           - name: module.py
             type: file
             base: module.py
-#          - name: build_settings.yaml
-#            type: file
-#            base: build_settings.yaml
+          - name: settings.yaml
+            type: file
+            base: settings.yaml
 

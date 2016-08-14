@@ -1,0 +1,30 @@
+---
+configure:
+  actions:
+    - type: parse
+      file: makefile
+      to: {{build_dir}}/makefile
+    - type: parse
+      file: project.mk
+      to: {{build_dir}}/project.mk
+build:
+  actions:
+    - type: exec
+      command: make
+      args: ['-C', '{{build_dir}}', 'all']
+clean:
+  actions:
+    - type: exec
+      command: make
+      args: ['-C', '{{build_dir}}', 'clean']
+rebuild:
+  actions:
+    - type: exec
+      command: make
+      args: ['-C', '{{build_dir}}', 'clean', 'all']
+run:
+  actions:
+    - type: exec
+      command: make
+      args: ['-C', '{{build_dir}}', 'run']
+

@@ -1,57 +1,55 @@
 """
 makefile target type module
 """
+import yaml
+from jinja2 import Template
+from pathlib import Path
+import subprocess as sp
+import larix.libs.pathlib
+import larix.libs.parsers as parsers
 
 # --------------------------------------------------------------------------------
 # module actions
 # --------------------------------------------------------------------------------
 
-def configure(project, target, namespace):
-    """ do configure action """
-    print('configure')
-
-
-def build(project, target, namespace):
-    """ do build action """
-    print('build')
-
-
-def clean(project, target, namespace):
-    """ do clean action """
-    print('clean')
-
-
-def rebuild(project, target, namespace):
-    """ do rebuild ation """
-    print('rebuild')
-
-
-# --------------------------------------------------------------------------------
-# module infomations
-# --------------------------------------------------------------------------------
-
-module_action_dict = {x.__name__:x for x in
-    [build, configure, clean, rebuild]}
+module_action_list = ['build', 'configure', 'clean', 'rebuild', 'run']
 
 def actions():
     """ return available action names """
-    return list(module_action_dict.keys())
+    return module_action_list
 
 
 def do_action(project, target, namespace, action_name):
     """ do ation """
-    if action_name in module_action_dict:
-        return module_action_dict[action_name](project, target, namespace)
+    if action_name not in module_action_list:
+        raise ValueError('invalid action name')
 
-    """
-    Todo:
-        * write error message
-    """
-    raise ValueError()
+    print('[{}]'.format(action_name))
+    #print(project)
+    #print(target)
+    #print(namespace)
+
+    settings_template = Template(open('targets/{}/settings.yaml'.format(target['name'])).read())
+    settings_yaml = yaml.load(settings_template.render(target))
+
+    if not settings_yaml:
+        raise Exception('setting.yaml not found')
+
+    Path(target['build_dir']).mkdir(parents=True, exist_ok=True)
+
+    target['project_root'] = Path(target['build_dir']).relpath_to('./')
+
+    for action in settings_yaml[action_name]['actions']:
+        if action['type'] == 'parse':
+            template = Template(open('targets/{}/{}'.format(target['name'], action['file'])).read())
+            with open(action['to'], 'w') as f:
+                f.write(template.render(target))
+        elif action['type'] == 'exec':
+            sp.run([action['command']] + action['args'])
 
 
 def is_action_enable(action_name):
     """ do rebuild ation """
-    return action_name in module_action_dict
+    return action_name in module_action_list
 
 

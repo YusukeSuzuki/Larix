@@ -33,6 +33,31 @@ def parse_contents_yaml(path, contents_yaml, template_name, template_dict):
                 f.write(resource.read())
 
 
+def parse_build_target(build_target):
+    def parse_variables(line):
+        return line
+
+    def glob_files(line):
+        files = [str(path) for path in Path().glob( parse_variables(line) )]
+        return files
+
+    result = {}
+
+    files_re = re.compile('.+_files$')
+
+    for key, value in build_target.items():
+        if files_re.match(key):
+            print(key)
+            print(value)
+            result[key] = []
+            for line in value:
+                result[key].extend(glob_files(line))
+        else:
+            result[key] = value
+
+    return result
+
+
 def init(namespace):
     # ----
     path = Path(namespace.name[0])
@@ -52,6 +77,7 @@ def init(namespace):
 
     template_dict = {
         'project_name': project_name,
+        'name': project_name,
         'target_name': target_name,
     }
 
@@ -106,9 +132,13 @@ def do(namespace):
     if not target:
         raise Exception('no target {} in {}'.format(namespace.target, larix.project_file_name))
 
+    target = parse_build_target(target)
+    target['template_dir'] = 'targets/{}/'.format(target['name'])
+    target['build_dir'] = 'build/{}/'.format(target['name'])
+
     # ----
     # load module
-    module_path = Path('targets/{}/module.py'.format(target['name']))
+    module_path = Path(target['template_dir']+'module.py')
 
     if not module_path.exists():
         raise Exception('{} not found'.format(str(module_path)))
