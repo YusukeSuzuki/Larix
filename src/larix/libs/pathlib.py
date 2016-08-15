@@ -12,7 +12,7 @@ def mkdir_ex(self, mode=0o777, parents=False, exist_ok=False):
             if not exist_ok:
                 raise e
 
-if pathlib.Path.mkdir is mkdir_ex:
+if pathlib.Path.mkdir is not mkdir_ex:
     pathlib.Path.mkdir_orig = pathlib.Path.mkdir
     pathlib.Path.mkdir = mkdir_ex
 

@@ -6,7 +6,6 @@ from jinja2 import Template
 from pathlib import Path
 import subprocess as sp
 import larix.libs.pathlib
-import larix.libs.parsers as parsers
 
 # --------------------------------------------------------------------------------
 # module actions
@@ -45,7 +44,9 @@ def do_action(project, target, namespace, action_name):
             with open(action['to'], 'w') as f:
                 f.write(template.render(target))
         elif action['type'] == 'exec':
-            sp.run([action['command']] + action['args'])
+            # sp.run() require python 3.5
+            # sp.run([action['command']] + action['args'])
+            sp.call([action['command']] + action['args'])
 
 
 def is_action_enable(action_name):
