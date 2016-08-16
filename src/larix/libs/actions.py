@@ -1,10 +1,8 @@
 from jinja2 import Template
 import pkg_resources as pr
 import yaml
-import re
 from pathlib import Path
-import os
-import sys
+import re, os, sys, logging
 import importlib as il
 
 import larix
@@ -47,8 +45,8 @@ def parse_build_target(build_target):
 
     for key, value in build_target.items():
         if files_re.match(key):
-            print(key)
-            print(value)
+            logging.debug(key)
+            logging.debug(value)
             result[key] = []
             for line in value:
                 result[key].extend(glob_files(line))
@@ -72,7 +70,7 @@ def init(namespace):
     # ----
     project_name = path.resolve().name
     target_name =  larix.default_target
-    print(namespace)
+    logging.debug(namespace)
     template_name = namespace.target_template
 
     template_dict = {

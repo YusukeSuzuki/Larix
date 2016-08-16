@@ -3,6 +3,7 @@ makefile target type module
 """
 import yaml
 from jinja2 import Template
+import logging
 from pathlib import Path
 import subprocess as sp
 import larix.libs.pathlib
@@ -24,9 +25,9 @@ def do_action(project, target, namespace, action_name):
         raise ValueError('invalid action name')
 
     print('[{}]'.format(action_name))
-    #print(project)
-    #print(target)
-    #print(namespace)
+    logging.debug(project)
+    logging.debug(target)
+    logging.debug(namespace)
 
     settings_template = Template(open('targets/{}/settings.yaml'.format(target['name'])).read())
     settings_yaml = yaml.load(settings_template.render(target))

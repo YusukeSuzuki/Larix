@@ -1,10 +1,11 @@
 import argparse
-import larix.sub_commands as sc
 import importlib as il
+import larix.sub_commands as sc
 
 def get_parser():
     parser = argparse.ArgumentParser()
     parser.set_defaults(sub_command='')
+    parser.add_argument('--log', type=str, default='WARNING')
 
     sub_parsers = parser.add_subparsers()
 
