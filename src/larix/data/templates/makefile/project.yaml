@@ -1,7 +1,8 @@
 ---
-target:
-  name: {{ target_name }} 
-  output_file_name: {{ project_name }}
-  source_files:
-    - src/*.c
+targets:
+  - name: {{ target_name }} 
+    target_template: {{ target_template }}
+    output_file_name: {{ project_name }}
+    source_files:
+      - src/*.c
 

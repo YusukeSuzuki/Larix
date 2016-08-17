@@ -29,7 +29,7 @@ def do_action(project, target, namespace, action_name):
     logging.debug(target)
     logging.debug(namespace)
 
-    settings_template = Template(open('targets/{}/settings.yaml'.format(target['name'])).read())
+    settings_template = Template(open('targets/{}/settings.yaml'.format(target['target_template'])).read())
     settings_yaml = yaml.load(settings_template.render(target))
 
     if not settings_yaml:
@@ -41,7 +41,7 @@ def do_action(project, target, namespace, action_name):
 
     for action in settings_yaml[action_name]['actions']:
         if action['type'] == 'parse':
-            template = Template(open('targets/{}/{}'.format(target['name'], action['file'])).read())
+            template = Template(open('targets/{}/{}'.format(target['target_template'], action['file'])).read())
             with open(action['to'], 'w') as f:
                 f.write(template.render(target))
         elif action['type'] == 'exec':

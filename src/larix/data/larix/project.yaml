@@ -1,12 +1,7 @@
 ---
 default_target:
-  - name: configure
-    target: default
-  - name: build
-    target: default
-  - name: clean
-    target: default
-  - name: rebuild
-    target: default
-  - name: run
-    target: default
+  - {name: configure, target: default}
+  - {name: build, target: default}
+  - {name: clean, target: default}
+  - {name: rebuild, target: default}
+  - {name: run, target: default}

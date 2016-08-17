@@ -76,6 +76,7 @@ def init(namespace):
     template_dict = {
         'project_name': project_name,
         'name': project_name,
+        'target_template': template_name,
         'target_name': target_name,
     }
 
@@ -116,22 +117,23 @@ def do(namespace):
 
     # ----
     # find target
-    print('find target {} for action {}'.format(namespace.target, namespace.action))
+    print('try find target {} for action {}'.format(namespace.target, namespace.action))
 
     target = None
 
     for yaml_doc in project_yamls:
-        if not 'target' in yaml_doc:
+        if not 'targets' in yaml_doc:
             continue
 
-        if yaml_doc['target']['name'] == namespace.target:
-            target = yaml_doc['target']
+        for target in yaml_doc['targets']:
+            if target['name'] == namespace.target:
+                target = target
 
     if not target:
         raise Exception('no target {} in {}'.format(namespace.target, larix.project_file_name))
 
     target = parse_build_target(target)
-    target['template_dir'] = 'targets/{}/'.format(target['name'])
+    target['template_dir'] = 'targets/{}/'.format(target['target_template'])
     target['build_dir'] = 'build/{}/'.format(target['name'])
 
     # ----
