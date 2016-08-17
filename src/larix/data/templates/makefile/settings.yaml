@@ -11,20 +11,20 @@ build:
   actions:
     - type: exec
       command: make
-      args: ['-C', '{{build_dir}}', 'all']
+      args: ['--no-print-directory', '-C', '{{build_dir}}', 'all']
 clean:
   actions:
     - type: exec
       command: make
-      args: ['-C', '{{build_dir}}', 'clean']
+      args: ['--no-print-directory', '-C', '{{build_dir}}', 'clean']
 rebuild:
   actions:
     - type: exec
       command: make
-      args: ['-C', '{{build_dir}}', 'clean', 'all']
+      args: ['--no-print-directory', '-C', '{{build_dir}}', 'clean', 'all']
 run:
   actions:
     - type: exec
       command: make
-      args: ['-C', '{{build_dir}}', 'run']
+      args: ['--no-print-directory', '-C', '{{build_dir}}', 'run']
 
