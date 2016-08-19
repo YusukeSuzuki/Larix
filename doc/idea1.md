@@ -179,3 +179,29 @@ project.yaml
 ------------------------------------------------------------
 
 
+external package
+------------------------------------------------------------
+
+### larix repo update
+
+- clone repos (if needed)
+    - into user data dir
+        - <user_data_dir>/repos/<repo_name>/<repo_name>/.git
+    - repos list in config dir
+        - <user_config_dir>/config.yaml
+- pull repos
+- make packages.yaml
+    - for f in repos/<repo_name>/packages.yaml
+
+
+Larix Application Configuration
+------------------------------------------------------------
+
+configuration value priority
+
+1. source code defaults
+2. <app config dir>/config.ini
+3. <user config dir>/config.ini, or command line config file (section or file)
+4. environment variable
+5. commandline options
+
