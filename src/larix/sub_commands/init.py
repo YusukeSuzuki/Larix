@@ -1,4 +1,4 @@
-import larix
+import larix.config
 import larix.libs.actions as actions
 
 def command(namespace):
@@ -10,7 +10,7 @@ def add_sub_parser(subparsers):
     sub_parser.set_defaults(func=command)
 
     sub_parser.add_argument(
-        '--target-template', type=str, default=larix.default_target_template)
+        '--target-template', type=str, default=larix.config.app.default_target_template)
     sub_parser.add_argument('name', type=str, nargs=1)
 
     return subparsers

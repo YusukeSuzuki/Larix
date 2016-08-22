@@ -1,14 +1,14 @@
 from pathlib import Path
-from larix import project_file_name
+from larix.config import app as app_config
 
 def current_project_yaml_path():
     # to do find project file by argument or environment variable
-    project_dir = Path().cwd() / project_file_name
+    project_dir = Path().cwd() / app_config.project_file_name
     project_file_path = None
 
     for pdir in project_dir.parents:
-        if (pdir / project_file_name).exists():
-            project_file_path = pdir / project_file_name
+        if (pdir / app_config.project_file_name).exists():
+            project_file_path = pdir / app_config.project_file_name
             break
 
     return project_file_path

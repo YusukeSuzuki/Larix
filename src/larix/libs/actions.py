@@ -5,7 +5,7 @@ from pathlib import Path
 import re, os, sys, logging
 import importlib as il
 
-import larix
+import larix.config
 import larix.libs.utils as utils
 
 def parse_contents_yaml(path, contents_yaml, template_name, template_dict):
@@ -69,7 +69,7 @@ def init(namespace):
 
     # ----
     project_name = path.resolve().name
-    target_name =  larix.default_target
+    target_name =  larix.config.app.default_target
     logging.debug(namespace)
     template_name = namespace.target_template
 
@@ -84,18 +84,18 @@ def init(namespace):
     os.chdir(str(path))
 
     larix_project_yaml_str = pr.resource_string(
-        'larix', 'data/larix/{}'.format(larix.project_file_name)).decode()
+        'larix', 'data/larix/{}'.format(larix.config.app.project_file_name)).decode()
     project_yaml_str = pr.resource_string(
         'larix', 'data/templates/{}/{}'.format(
-            template_name, larix.project_file_name)).decode()
+            template_name, larix.config.app.project_file_name)).decode()
 
-    with Path(larix.project_file_name).open('w') as f:
+    with Path(larix.config.app.project_file_name).open('w') as f:
         f.write(larix_project_yaml_str )
         f.write(Template(project_yaml_str).render(template_dict))
 
     contents_yaml_str = pr.resource_string(
         'larix', 'data/templates/{}/{}'.format(
-            template_name, larix.contents_file_name)).decode()
+            template_name, larix.config.app.contents_file_name)).decode()
 
     contents_yaml = yaml.load(Template(contents_yaml_str).render(template_dict))
     parse_contents_yaml(Path(), contents_yaml, template_name, template_dict)
@@ -107,7 +107,7 @@ def do(namespace):
     project_file_path = utils.current_project_yaml_path()
 
     if not project_file_path:
-        raise Exception('{} not found'.format(larix.project_file_name))
+        raise Exception('{} not found'.format(larix.config.app.project_file_name))
 
     project_file_path = Path(project_file_path)
     project_dir_path = project_file_path.parent
@@ -130,7 +130,7 @@ def do(namespace):
                 target = target
 
     if not target:
-        raise Exception('no target {} in {}'.format(namespace.target, larix.project_file_name))
+        raise Exception('no target {} in {}'.format(namespace.target, larix.config.app.project_file_name))
 
     target = parse_build_target(target)
     target['template_dir'] = 'targets/{}/'.format(target['target_template'])
