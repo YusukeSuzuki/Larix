@@ -27,6 +27,7 @@ def init():
     app.project_file_name = 'project.yaml'
     app.contents_file_name = 'contents.yaml'
     app.external_package_repository = ''
+    app.additional_package_repositories = ''
 
     logging.basicConfig(format=app.log_format, level=logging.getLevelName(app.log_level))
 
@@ -41,7 +42,9 @@ def init_with_config(config, section):
             raise ValueError('no such config value: {}'.format(key))
 
     logging.basicConfig(format=app.log_format, level=logging.getLevelName(app.log_level))
-
+    logger = logging.getLogger()
+    logger.format = app.log_format
+    logger.level = logging.getLevelName(app.log_level)
 
 init()
 
