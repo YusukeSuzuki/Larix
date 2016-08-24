@@ -15,7 +15,7 @@ def repository_list():
         repositories = repositories + list( filter(lambda x: bool(x),
             config.app.additional_package_repositories.split("\n")) )
 
-    repositories = [[x for x in record.split(" ") if bool(x)] for record in repositories]
+    repositories = [record.split() for record in repositories]
     repositories = [
         ExternalPackageRepository(r[0], r[1], r[2]) for r in repositories]
 
