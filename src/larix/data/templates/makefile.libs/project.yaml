@@ -1,0 +1,31 @@
+---
+targets:
+  - name: {{ target_name }}
+    settings:
+    # ------------------------------------------------------------
+    - name: debug
+      target_template: {{ target_template }}
+      library_name: {{ project_name }}
+      source_files:
+        - src/*.c
+      include_dirs:
+        - include/
+      compile_options:
+        - &common_compile_options ['-Wall']
+        - ['-g', '-O1']
+      linker_options:
+        - ['-fPIC']
+    # ------------------------------------------------------------
+    - name: release
+      target_template: {{ target_template }}
+      library_name: {{ project_name }}
+      source_files:
+        - src/*.c
+      include_dirs:
+        - include/
+      compile_options:
+        - *common_compile_options
+        - ['-O3']
+      linker_options:
+        - ['-fPIC']
+

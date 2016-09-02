@@ -1,0 +1,32 @@
+---
+entities:
+  - name: src 
+    type: directory
+    entities:
+      - name: my_lib.c
+        type: file
+        base: my_lib.c
+  - name: include
+    type: directory
+    entities:
+      - name: my_lib.h
+        type: file
+        base: my_lib.h
+  - name: targets
+    type: directory
+    entities:
+      - name: {{target_template}}
+        type: directory
+        entities:
+          - name: makefile
+            type: file
+            base: makefile
+          - name: project.mk
+            type: file
+            base: project.mk
+          - name: module.py
+            type: file
+            base: module.py
+          - name: settings.yaml
+            type: file
+            base: settings.yaml
