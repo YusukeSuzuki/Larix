@@ -10,25 +10,37 @@ import larix.libs.utils as utils
 
 def parse_contents_yaml(path, contents_yaml, template_name, template_dict):
     for entity in contents_yaml['entities']:
-        if entity['type'] == 'directory':
-            (path/entity['name']).mkdir()
-            parse_contents_yaml(path/entity['name'], entity, template_name, template_dict)
+        name = entity.get('name', '')
+
+        if not name:
+            raise Exception("key 'name' not found")
+
+        entity_type = entity.get('type', 'file')
+        base = entity.get('base', name)
+
+        if entity_type == 'directory':
+            (path/name).mkdir()
+            parse_contents_yaml(path/name, entity, template_name, template_dict)
             continue
 
-        elif (path/entity['name']).exists():
-            print('file {} already exists.'.format(str(path/entity['name'])))
-        elif entity['type'] == 'generated':
+        if (path/name).exists():
+            print('file {} already exists.'.format(str(path/name)))
+            continue
+
+        if entity_type == 'generated':
             resource = pr.resource_string(
-                'larix', 'data/templates/{}/{}'.format(template_name, entity['base'])).decode()
-            with (path/entity['name']).open('w') as f:
+                'larix', 'data/templates/{}/{}'.format(template_name, base)).decode()
+            with (path/name).open('w') as f:
                 ''' Todo: avoid overwrite '''
                 f.write(Template(resource).render(template_dict))
-        elif entity['type'] == 'file':
+        elif entity_type == 'file':
             resource = pr.resource_stream(
-                'larix', 'data/templates/{}/{}'.format(template_name, entity['base']))
-            with (path/entity['name']).open('wb') as f:
+                'larix', 'data/templates/{}/{}'.format(template_name, base))
+            with (path/name).open('wb') as f:
                 ''' Todo: avoid overwrite '''
                 f.write(resource.read())
+        else:
+            raise Exception('unknown entity type: "{}"'.format(entity_type))
 
 
 def parse_build_target(build_target):

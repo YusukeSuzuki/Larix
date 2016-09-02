@@ -13,15 +13,6 @@ entities:
         type: directory
         entities:
           - name: makefile
-            type: file
-            base: makefile
           - name: project.mk
-            type: file
-            base: project.mk
           - name: module.py
-            type: file
-            base: module.py
           - name: settings.yaml
-            type: file
-            base: settings.yaml
-
