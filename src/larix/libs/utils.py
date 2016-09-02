@@ -13,3 +13,9 @@ def current_project_yaml_path():
 
     return project_file_path
 
+def flatten_nested_list(l):
+    if isinstance(l, (list, tuple)) and not isinstance(l, str):
+        return reduce( lambda x, y: x + flatten(y), l, [])
+
+    return [l]
+
